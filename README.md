@@ -27,6 +27,39 @@ So the entire set of stylist functions, is like a giant
 a single dynamic style sheet.
 
 
-Sort of like the way we produce markup as function of state, here we produce styles.
+Sort of like the way we produce markup as function of state, here we produce style.
+
+## More ideas
+
+We need to do something like, whenever we update state, call ALL the style functions to we can produce
+ANY required changes. (Just like in Brutal).
+
+But an optimization should also be possible as well, that we have recourse to, should it be desired.
+
+So that I can call, such an such a stylist function in reaction to an action / state change.
+
+But the thing is, how do I, as in ME, the AUTHOR, KNOW, which stylist function corresponds to the change?
+
+Well, I GUESS, just in the same way we KNOW (and duplicate), the dependency between state and view markup render functions.
+
+The final point is, given we have keyed, multiple instances of the one render for collections of data,
+
+when I call a stylist function, HOW WILL IT KNOW, which particular KEYED style rules to update?
+
+That is the interesting part.
+
+The mapping, not between singleton views and style rules, but between keyed collection views and 
+
+style rules?
+
+Because we are avoiding CSS and any idea of classes (that is handled by DSS internally). 
+
+And further, HOW are the stylist functions "BONDED" to a particular view ? 
+
+Like how are the classes generated, how are they "printed" onto a keyed markup, and into the stylesheet?
+
+Also, the stylesheet is updated dynamically (just like MARKUP in brutal), we replace stylerules
+
+as they are not needed, but the newer versions (minimal diffing, just like Brutal with HTML).
 
 
