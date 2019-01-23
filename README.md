@@ -62,4 +62,19 @@ Also, the stylesheet is updated dynamically (just like MARKUP in brutal), we rep
 
 as they are not needed, but the newer versions (minimal diffing, just like Brutal with HTML).
 
+## More ideas
+
+So I like how the style function is declaratively "bonded" to the root HTML tree it will affect.
+
+This bonding ensures that:
+
+1) Correct random classes are applied to the root, and
+2) The produced rules are prefixed by those random classes
+
+Also the random class applies to 1 element.
+
+So we have a couple of cases of maintaining this bond.
+
+1. The element root never changes, and the random class persists, and there is only 1 element that this style function is bonded to, then
+
 
