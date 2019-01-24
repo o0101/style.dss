@@ -144,5 +144,6 @@ Anyway, when elements leave the DOM, we remove the stlyes and the element style 
 When elements are ADDED to the DOM, we compute the styles, add the styles, and add the elements to the random class table. 
 
 
-
+--- I actually think that I should use mutation observers, rather than "coupling" this to the Brutal framework and requiring a change to brutal
+"unbond" event, and event hooks. I think I should just use mutation observers.
 
