@@ -4,11 +4,34 @@
 
   initializeDSS({
     basicStyle(el, state) {
+      return `
+        article {
+          border: thick solid blue;
+        }
 
+        article p {
+          font-style: italic;
+        }
+      `;
     }, 
 
     coolStyle(el, state) {
+      return `
+        article {
+          background: black;
+          color: lime;
+          border: medium solid white;
+        }
 
+        article h1 {
+          font-size: 20pt;
+          text-decoration: underline;
+        }
+
+        article p {
+          font-weight: bold;
+        }
+      `;
     },
   });
 </script>
