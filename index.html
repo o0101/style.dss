@@ -1,4 +1,9 @@
 <title>DSS Test</title>
+    <style data-role="prevent-fouc">
+      [stylist]:not([associated]) {
+        display: none !important;
+      }
+    </style>
 <script type=module>
   import {initializeDSS} from './index.js';
 

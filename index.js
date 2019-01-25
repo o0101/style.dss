@@ -4,29 +4,12 @@ import {addInsertListener, addRemovedListener, monitorChanges} from './monitorCh
 
 const stylistFunctions = new Map();
 
-function associate(className, element, stylist, state) {
-  const styleText = stylist(element, state) || '';
-  const styleMarkup = `
-    <style data-prefix="${className}">
-      ${styleText}
-    </style>
-  `;
-  document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
-  const styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
-  const styleSheet = styleElement.sheet;
-  prefixAllRules(styleSheet, "." + className);
-  element.setAttribute('associated', 'true');
-}
-
-function disassociate(className, element) {
-  const styleSheet = document.querySelector(`style[data-prefix="${className}"]`); 
-  if ( !! styleSheet ) {
-    element.classList.remove(className);
-    styleSheet.remove();
-  }
-}
-
 export function initializeDSS(functionsObject) {
+  /** 
+    to REALLY prevent FOUC put this style tag BEFORE any DSS-styled markup
+    and before any scripts that add markup, 
+    and before the initializeDSS call
+  **/
   document.head.insertAdjacentHTML('afterBegin', `
     <style data-role="prevent-fouc">
       [stylist]:not([associated]) {
@@ -76,4 +59,26 @@ export function addMoreStylistFunctions(functionsObject) {
 function randomClass() {
   const {prefix:className} = generateUniquePrefix();
   return className;
+}
+
+function associate(className, element, stylist, state) {
+  const styleText = stylist(element, state) || '';
+  const styleMarkup = `
+    <style data-prefix="${className}">
+      ${styleText}
+    </style>
+  `;
+  document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
+  const styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+  const styleSheet = styleElement.sheet;
+  prefixAllRules(styleSheet, "." + className);
+  element.setAttribute('associated', 'true');
+}
+
+function disassociate(className, element) {
+  const styleSheet = document.querySelector(`style[data-prefix="${className}"]`); 
+  if ( !! styleSheet ) {
+    element.classList.remove(className);
+    styleSheet.remove();
+  }
 }
