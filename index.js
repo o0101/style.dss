@@ -28,11 +28,14 @@ export function initializeDSS(functionsObject) {
     els = els.filter(el => el.hasAttribute('stylist'));
     if ( els.length == 0 ) return;
     for ( const el of els ) {
-      const stylistName = el.getAttribute('stylist');
-      const stylist = stylistFunctions.get(stylistName);
-      const className = randomClass();
-      el.classList.add(className);
-      associate(className, el, stylist);
+      const stylistNames = (el.getAttribute('stylist') || '').split(/\s+/g);
+      for ( const stylistName of stylistNames ) {
+        const stylist = stylistFunctions.get(stylistName);
+        if ( ! stylist ) throw new TypeError(`Stylist named by ${stylistName} is unknown.`);
+        const className = randomClass();
+        el.classList.add(className);
+        associate(className, el, stylist);
+      }
     }
   }
 

@@ -8,6 +8,14 @@
   import {initializeDSS} from './index.js';
 
   initializeDSS({
+    redStyle(el, state) {
+      return `
+        article p {
+          color: red;
+        }
+      `;
+    }, 
+
     basicStyle(el, state) {
       return `
         article {
@@ -40,7 +48,7 @@
     },
   });
 </script>
-<article class=whatever stylist=basicStyle>
+<article class=whatever stylist="basicStyle redStyle">
   <h1>Cool this is basic style article</h1>
   <p>Some paragraphs in basic style</p>
 </article>
