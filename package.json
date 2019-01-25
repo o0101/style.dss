@@ -1,0 +1,25 @@
+{
+  "name": "dss",
+  "version": "1.0.0",
+  "description": "dynamic style sheets",
+  "main": "index.js",
+  "scripts": {
+    "test": "serve -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/dosycorp/dss.git"
+  },
+  "keywords": [
+    "dss",
+    "dynamic",
+    "style",
+    "sheets"
+  ],
+  "author": "@dosy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/dosycorp/dss/issues"
+  },
+  "homepage": "https://gitlab.com/dosycorp/dss#readme"
+}

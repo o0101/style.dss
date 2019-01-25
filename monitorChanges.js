@@ -1,3 +1,4 @@
+export function monitorChanges() {
   // demo of watching for any new nodes that declare stylists
   const mo = new MutationObserver((mutations)=> {
     const AddedElements = [];
@@ -13,3 +14,4 @@
     }
   });
   mo.observe(document.documentElement, {childList:true, subtree:true});
+}

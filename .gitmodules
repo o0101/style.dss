@@ -1,0 +1,3 @@
+[submodule "c3s"]
+	path = c3s
+	url = git@github.com:/crislin2046/c3s
