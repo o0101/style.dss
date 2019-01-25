@@ -1,7 +1,22 @@
 <title>DSS Test</title>
 <script type=module>
-  import {monitorChanges} from './monitorChanges.js';
-  import {dss} from './dss.js';
+  import {initializeDSS} from './index.js';
 
-  console.log(dss);
+  initializeDSS({
+    basicStyle(el, state) {
+
+    }, 
+
+    coolStyle(el, state) {
+
+    },
+  });
 </script>
+<article class=whatever stylist=basicStyle>
+  <h1>Cool this is basic style article</h1>
+  <p>Some paragraphs in basic style</p>
+</article>
+<article class=awesome stylist=coolStyle>
+  <h1>Awesome this is cool style</h1>
+  <p>A paragraph in cool style</p>
+</article>
