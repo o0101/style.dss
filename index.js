@@ -45,11 +45,13 @@ export function initializeDSS(state, functionsObject) {
   addRemovedListener(unassociateStylistFunctions);
   monitorChanges();
   const initialEls = Array.from(document.querySelectorAll('[stylist]'));
+  console.log(initialEls);
   associateStylistFunctions(...initialEls);
 
   return;
 
   function associateStylistFunctions(...els) {
+    console.log(els);
     els = els.filter(el => el.hasAttribute('stylist'));
     if ( els.length == 0 ) return;
     for ( const el of els ) {
