@@ -105,6 +105,7 @@ function associate(className, element, stylist, state) {
 
 function disassociate(className, element) {
   const styleSheet = document.querySelector(`style[data-prefix="${className}"]`); 
+  mappings.delete(className);
   if ( !! styleSheet ) {
     element.classList.remove(className);
     styleSheet.remove();

@@ -16,7 +16,7 @@ These styles are applied in a "scoped" way so that they do not bleed outside the
 
 ## Using
 
-Let's make a simple Demo.
+Let's make a simple demo.
 
 First, create your styling control file, `stylcon.js`
 
@@ -65,7 +65,9 @@ load this file in your browser of choice, and you should see the first link with
 
 Now open up a developer console, and play around with setting different values in the state using `setState` and calling `restyleAll` to propagate these state changes to the style functions.
 
-For more examples, please see the tests.
+For more examples, you may see the tests in "index.html".
+
+I've also included the above demo in "demo.html".
 
 # FAQ
 
@@ -80,6 +82,21 @@ Flash of unstyled content can be prevented by adding this stylesheet to the top 
     }
   </style>
 ```
+
+## What about dynamically inserted and removed markup?
+
+Don't worry. If you are adding or removing tags and components to your page that use stylist functions, DSS has you covered.
+
+DSS monitors the changes to the DOM using mutation observers, keeping on the lookout for any tags bearing stylist attributes being added or removed, 
+and it updates its tables accordingly.
+
+## How can I contribute?
+
+You're welcome to open issues and make PRs, but I don't want to have an OSS project with lots of commitments, so I will avoid making it into that.
+
+## How can I develop?
+
+I recommend you clone the repo and run `serve -p 8080` (or whatever port you like) on its directory.
 
 # DSS in depth
 
@@ -111,5 +128,4 @@ DSS applies stylist functions to elements that request them by creating a unique
 DSS creates 1 style element (and stylesheet) for each element-stylist pairing. There is [an open issue](https://gitlab.com/dosycorp/dss/issues/1) to optimize style generation only using a single style element and stylesheet.
 
 DSS relies on a CSSS library (Cascading Scoped Style Sheets) called "C3S" to provide random classes and prefix style rules. This library has some limitations currently. For example, media queries and their sub-rules are not supported. For more information about C3S limitations, see [the open issue](https://github.com/crislin2046/c3s/issues/4).
-
 

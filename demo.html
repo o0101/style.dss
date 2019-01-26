@@ -1,0 +1,39 @@
+<style data-role="prevent-fouc">
+  [stylist]:not([associated]) {
+    display: none !important;
+  }
+</style>
+<script type=module>
+  // import some useful functions
+  import {initializeDSS, setState, restyleAll} from 'https://unpkg.com/style.dss';
+
+  // create some application state
+  const appState = {
+    mode: 'delicious',
+    level: 9
+  };
+
+  // create a stylist functions
+  function linkColorizer(el, state) {
+    return `
+      a, a:visited, a:hover, a:link {
+        color: ${state.mode == 'delicious' ? 'orange' : 'purple'};
+        background: ${state.level < 9 ? 'transparent' : 'silver'};
+      }
+    `
+  }
+
+  // initialize DSS
+  initializeDSS(appState, {linkColorizer});
+
+  // make some globals for console play
+  Object.assign(self, {setState, restyleAll});
+</script>
+<section stylist=linkColorizer>
+  <p>
+    <a href=#color>I should have some non-standard colorings</a>
+</section>
+<section>
+  <p>
+    <a href=#normal>I should be a totally normal hyperlink</a>
+</section>
