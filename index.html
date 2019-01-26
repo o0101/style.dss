@@ -5,48 +5,74 @@
       }
     </style>
 <script type=module>
-  import {initializeDSS} from './index.js';
+  const sleep = ms => new Promise(res => setTimeout(res,ms));
+  import {restyleElement, initializeDSS, restyleAll, setState} from './index.js';
 
-  initializeDSS({
-    redStyle(el, state) {
-      return `
-        article p {
-          color: red;
-        }
-      `;
-    }, 
+  start();
 
-    basicStyle(el, state) {
-      return `
-        article {
-          border: thick solid blue;
-        }
+  async function start() {
+    const state = {
+      color: 'red'
+    };
+    initializeDSS(state, {
+      redStyle(el, state) {
+        return `
+          article p {
+            color: ${state.color || 'red'};
+          }
+        `;
+      }, 
 
-        article p {
-          font-style: italic;
-        }
-      `;
-    }, 
+      basicStyle(el, state) {
+        return `
+          article {
+            border: thick solid blue;
+          }
 
-    coolStyle(el, state) {
-      return `
-        article {
-          background: black;
-          color: lime;
-          border: medium solid white;
-        }
+          article p {
+            font-style: italic;
+          }
+        `;
+      }, 
 
-        article h1 {
-          font-size: 20pt;
-          text-decoration: underline;
-        }
+      coolStyle(el, state) {
+        return `
+          article {
+            background: ${state.hotness == 'nice'? 'pink' : 'black'};
+            color: lime;
+            border: medium solid white;
+          }
 
-        article p {
-          font-weight: bold;
-        }
-      `;
-    },
-  });
+          article h1 {
+            font-size: 20pt;
+            text-decoration: underline;
+          }
+
+          article p {
+            font-weight: bold;
+          }
+        `;
+      },
+    });
+
+    await sleep(5000);
+
+    setState({
+      color: 'purple'
+    });
+    restyleAll();
+
+    await sleep(2000);
+
+    setState({
+      hotness: 'nice',
+    });
+    restyleElement(document.querySelector('.whatever'));
+
+    await sleep(3000);
+
+    restyleAll();
+  }
 </script>
 <article class=whatever stylist="basicStyle redStyle">
   <h1>Cool this is basic style article</h1>

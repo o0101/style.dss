@@ -3,8 +3,31 @@ import {generateUniquePrefix, prefixAllRules} from './c3s/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
 
 const stylistFunctions = new Map();
+const mappings = new Map();
+const memory = {};
 
-export function initializeDSS(functionsObject) {
+export function setState(newState) {
+  const clonedState = clone(newState);
+  Object.assign(memory.state,newState);
+}
+
+export function restyleElement(el) {
+  el.classList.forEach(className => className.startsWith('c3s') && restyleClass(className));
+}
+
+export function restyleClass(className) {
+  const {element,stylist} = mappings.get(className);
+  stylist(element, memory.state);
+}
+
+export function restyleAll() {
+  mappings.forEach(({element,stylist}, className) => {
+    associate(className, element, stylist, memory.state);
+  });
+}
+
+export function initializeDSS(state, functionsObject) {
+  memory.state = state;
   /** 
     to REALLY prevent FOUC put this style tag BEFORE any DSS-styled markup
     and before any scripts that add markup, 
@@ -24,6 +47,8 @@ export function initializeDSS(functionsObject) {
   const initialEls = Array.from(document.querySelectorAll('[stylist]'));
   associateStylistFunctions(...initialEls);
 
+  return;
+
   function associateStylistFunctions(...els) {
     els = els.filter(el => el.hasAttribute('stylist'));
     if ( els.length == 0 ) return;
@@ -34,16 +59,8 @@ export function initializeDSS(functionsObject) {
         if ( ! stylist ) throw new TypeError(`Stylist named by ${stylistName} is unknown.`);
         const className = randomClass();
         el.classList.add(className);
-        associate(className, el, stylist);
+        associate(className, el, stylist, state);
       }
-    }
-  }
-
-  function unassociateStylistFunctions(...els) {
-    els = els.filter(el => el.hasAttribute('stylist'));
-    if ( els.length == 0 ) return;
-    for ( const el of els ) {
-      el.classList.forEach(className => className.startsWith('c3s') && disassociate(className, el));
     }
   }
 }
@@ -60,19 +77,27 @@ export function addMoreStylistFunctions(functionsObject) {
 }
 
 function randomClass() {
-  const {prefix:className} = generateUniquePrefix();
+  const {prefix:[className]} = generateUniquePrefix();
   return className;
 }
 
 function associate(className, element, stylist, state) {
+  if (!mappings.has(className)) {
+    mappings.set(className, {element,stylist});
+  }
   const styleText = stylist(element, state) || '';
-  const styleMarkup = `
-    <style data-prefix="${className}">
-      ${styleText}
-    </style>
-  `;
-  document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
-  const styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+  let styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+  if ( !styleElement ) {
+    const styleMarkup = `
+      <style data-prefix="${className}">
+        ${styleText}
+      </style>
+    `;
+    document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
+    styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+  } else if ( styleElement.innerHTML !== styleText ) {
+    styleElement.innerHTML = styleText;
+  }
   const styleSheet = styleElement.sheet;
   prefixAllRules(styleSheet, "." + className);
   element.setAttribute('associated', 'true');
@@ -84,4 +109,16 @@ function disassociate(className, element) {
     element.classList.remove(className);
     styleSheet.remove();
   }
+}
+
+function unassociateStylistFunctions(...els) {
+  els = els.filter(el => el.hasAttribute('stylist'));
+  if ( els.length == 0 ) return;
+  for ( const el of els ) {
+    el.classList.forEach(className => className.startsWith('c3s') && disassociate(className, el));
+  }
+}
+
+function clone(o) {
+  return JSON.parse(JSON.stringify(o)); 
 }

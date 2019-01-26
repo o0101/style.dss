@@ -1,0 +1,62 @@
+<title>DSS Test</title>
+    <style data-role="prevent-fouc">
+      [stylist]:not([associated]) {
+        display: none !important;
+      }
+    </style>
+<script type=module>
+  import {initializeDSS} from './index.js';
+
+  initializeDSS({
+    redStyle(el, state) {
+      return `
+        article p {
+          color: red;
+        }
+      `;
+    }, 
+
+    basicStyle(el, state) {
+      return `
+        article {
+          border: thick solid blue;
+        }
+
+        article p {
+          font-style: italic;
+        }
+      `;
+    }, 
+
+    coolStyle(el, state) {
+      return `
+        article {
+          background: black;
+          color: lime;
+          border: medium solid white;
+        }
+
+        article h1 {
+          font-size: 20pt;
+          text-decoration: underline;
+        }
+
+        article p {
+          font-weight: bold;
+        }
+      `;
+    },
+  });
+</script>
+<article class=whatever stylist="basicStyle redStyle">
+  <h1>Cool this is basic style article</h1>
+  <p>Some paragraphs in basic style</p>
+</article>
+<article class=awesome stylist=coolStyle>
+  <h1>Awesome this is cool style</h1>
+  <p>A paragraph in cool style</p>
+</article>
+<article class=awesome stylist="coolStyle redStyle">
+  <h1>Awesome this is cool style</h1>
+  <p>A paragraph in cool style</p>
+</article>
