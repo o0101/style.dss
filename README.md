@@ -16,7 +16,58 @@ These styles are applied in a "scoped" way so that they do not bleed outside the
 
 ## Using
 
+Let's make a simple Demo.
 
+First, create your styling control file, `stylcon.js`
+
+```javascript
+  // import some useful functions
+  import {initializeDSS, setState, restyleAll} from 'https://unpkg.com/style.dss';
+
+  // create some application state
+  const appState = {
+    mode: 'delicious',
+    level: 9
+  };
+
+  // create a stylist functions
+  function linkColorizer(el, state) {
+    return `
+      a, a:visited, a:hover, a:link {
+        color: ${state.mode == 'delicious' ? 'orange' : 'purple'};
+        background: ${state.level < 9 ? 'transparent' : 'silver'};
+      }
+    `
+  }
+
+  // initialize DSS
+  initializeDSS(appState, {linkColorizer});
+
+  // make some globals for console play
+  Object.assign(self, {setState, restyleAll});
+```
+  
+then create some markup in your `index.html` file:
+
+```html
+  <script type=module src=style-control.js></script>
+  <section stylist=linkColorizer>
+    <p>
+      <a href=#color>I should have some non-standard colorings</a>
+  </section>
+  <section>
+    <p>
+      <a href=#normal>I should be a totally normal hyperlink</a>
+   </section>
+```
+
+load this file in your browser of choice, and you should see the first link with some non-standard colorings and the second link looking very normal.
+
+Now open up a developer console, and play around with setting different values in the state using `setState` and calling `restyleAll` to propagate these state changes to the style functions.
+
+For more examples, please see the tests.
+
+# DSS in depth
 
 ## Style scoping and the cascade 
 
@@ -24,7 +75,7 @@ DSS styles are scoped to a component, meaning they will not affect DOM ancestors
 
 For example:
 
-```CSS
+```javascript
   function underlinePs(el, state) {
     return `
       article p {

@@ -27,7 +27,7 @@ export function restyleAll() {
 }
 
 export function initializeDSS(state, functionsObject) {
-  memory.state = state;
+  setState(state);
   /** 
     to REALLY prevent FOUC put this style tag BEFORE any DSS-styled markup
     and before any scripts that add markup, 
