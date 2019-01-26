@@ -1,5 +1,5 @@
 import {dss} from './dss.js';
-import {generateUniquePrefix, prefixAllRules} from './c3s/c3s.js';
+import {generateUniquePrefix, prefixAllRules} from './node_modules/maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
 
 const stylistFunctions = new Map();

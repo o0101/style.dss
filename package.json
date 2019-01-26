@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://gitlab.com/dosycorp/dss/issues"
   },
-  "homepage": "https://gitlab.com/dosycorp/dss#readme"
+  "homepage": "https://gitlab.com/dosycorp/dss#readme",
+  "dependencies": {
+    "maskingtape.css": "^1.1.0"
+  }
 }
