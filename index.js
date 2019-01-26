@@ -32,6 +32,7 @@ export function initializeDSS(state, functionsObject) {
     to REALLY prevent FOUC put this style tag BEFORE any DSS-styled markup
     and before any scripts that add markup, 
     and before the initializeDSS call
+  **/
   document.head.insertAdjacentHTML('afterBegin', `
     <style data-role="prevent-fouc">
       [stylist]:not([associated]) {
@@ -39,7 +40,6 @@ export function initializeDSS(state, functionsObject) {
       }
     </style>
   `);
-  **/
   addMoreStylistFunctions(functionsObject); 
   addInsertListener(associateStylistFunctions);
   addRemovedListener(unassociateStylistFunctions);
