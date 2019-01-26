@@ -1,4 +1,6 @@
-# Dyanmic Style Sheets (DSS)
+# Dyanmic Style Sheets (DSS) 
+
+*Current version:* 1.1.0
 
 DSS aims to implement style as a function of state. Effectively it results in functionality similar to a cross between scoped style sheets, and CSS-in-JS.
 
