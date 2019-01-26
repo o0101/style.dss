@@ -4,7 +4,7 @@ import {addInsertListener, addRemovedListener, monitorChanges} from './monitorCh
 
 const stylistFunctions = new Map();
 const mappings = new Map();
-const memory = {};
+const memory = {state: {}};
 
 export function setState(newState) {
   const clonedState = clone(newState);

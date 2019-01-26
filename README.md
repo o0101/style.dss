@@ -67,6 +67,20 @@ Now open up a developer console, and play around with setting different values i
 
 For more examples, please see the tests.
 
+# FAQ
+
+## How can I prevent FOUC?
+
+Flash of unstyled content can be prevented by adding this stylesheet to the top of your head element:
+
+```html
+  <style data-role="prevent-fouc">
+    [stylist]:not([associated]) {
+      display: none !important;
+    }
+  </style>
+```
+
 # DSS in depth
 
 ## Style scoping and the cascade 
