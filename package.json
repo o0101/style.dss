@@ -1,6 +1,6 @@
 {
   "name": "style.dss",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "dynamic style sheets",
   "main": "index.js",
   "scripts": {
