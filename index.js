@@ -1,4 +1,3 @@
-import {dss} from './dss.js';
 import {generateUniquePrefix, prefixAllRules} from '../maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
 
@@ -99,7 +98,7 @@ function associate(className, element, stylist, state) {
     styleElement.innerHTML = styleText;
   }
   const styleSheet = styleElement.sheet;
-  prefixAllRules(styleSheet, "." + className);
+  prefixAllRules(styleSheet, "." + className, '');
   element.setAttribute('associated', 'true');
 }
 

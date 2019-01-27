@@ -4,7 +4,8 @@
   "description": "dynamic style sheets",
   "main": "index.js",
   "scripts": {
-    "test": "serve -p 8080"
+    "test": "serve -p 8080",
+    "pretest": "cp -r ./node_modules/maskingtape.css ./"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,6 @@
   },
   "homepage": "https://gitlab.com/dosycorp/dss#readme",
   "dependencies": {
-    "maskingtape.css": "^1.4.0"
+    "maskingtape.css": "^1.4.1"
   }
 }
