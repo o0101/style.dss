@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/dosycorp/dss.git"
+    "url": "git+ssh://git@gitlab.com/dosycorp/style.dss.git"
   },
   "keywords": [
     "dss",
@@ -20,9 +20,9 @@
   "author": "@dosy",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/dosycorp/dss/issues"
+    "url": "https://gitlab.com/dosycorp/style.dss/issues"
   },
-  "homepage": "https://gitlab.com/dosycorp/dss#readme",
+  "homepage": "https://gitlab.com/dosycorp/style.dss#readme",
   "dependencies": {
     "maskingtape.css": "^1.5.0"
   }
