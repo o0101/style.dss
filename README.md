@@ -71,6 +71,14 @@ For more examples, you may see the tests in "index.html".
 
 I've also included the above demo in "demo.html".
 
+## Usage
+
+Overview of functions:
+
+- `restyleAll`: restyles all elements that have stylist attributes
+- `restyleElement`: restyles a single element
+- `setState`: sets the copy of the state used by stylist functions to calculate style text
+
 # FAQ
 
 ## How can I prevent FOUC?
