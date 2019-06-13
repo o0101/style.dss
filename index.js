@@ -16,7 +16,7 @@ export function restyleElement(el) {
 
 export function restyleClass(className) {
   const {element,stylist} = mappings.get(className);
-  stylist(element, memory.state);
+  associate(className, element, stylist, memory.state);
 }
 
 export function restyleAll() {
@@ -95,10 +95,12 @@ function associate(className, element, stylist, state) {
     document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
     styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
   } else if ( styleElement.innerHTML !== styleText ) {
+    console.log(`Style element`, styleElement, `innerHTML set`);
     styleElement.innerHTML = styleText;
   }
   const styleSheet = styleElement.sheet;
   prefixAllRules(styleSheet, "." + className, '');
+  console.log(styleSheet);
   element.setAttribute('associated', 'true');
 }
 
