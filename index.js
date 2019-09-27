@@ -1,6 +1,8 @@
 import {generateUniquePrefix, prefixAllRules} from '../maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
+import DEFAULT_SHEILD from './shield.js';
 
+const Options = {shield:DEFAULT_SHIELD};
 const stylistFunctions = new Map();
 const mappings = new Map();
 const memory = {state: {}};
@@ -25,7 +27,13 @@ export function restyleAll() {
   });
 }
 
-export function initializeDSS(state, functionsObject) {
+export function initializeDSS(state, functionsObject, options) {
+  const {shield} = options;
+
+  if ( !! shield && typeof shield == "string" ) {
+    Object.assign(Options, {shield});
+  } 
+
   setState(state);
   /** 
     to REALLY prevent FOUC put this style tag BEFORE any DSS-styled markup
@@ -39,7 +47,7 @@ export function initializeDSS(state, functionsObject) {
       }
     </style>
   `);
-  addMoreStylistFunctions(functionsObject); 
+  addMoreStylistFunctions(functionsObject, options); 
   addInsertListener(associateStylistFunctions);
   addRemovedListener(unassociateStylistFunctions);
   monitorChanges();
@@ -70,7 +78,14 @@ export function addMoreStylistFunctions(functionsObject) {
   for ( const funcName of Object.keys(functionsObject) ) {
     const value = functionsObject[funcName];
     if ( typeof value !== "function" ) throw new TypeError("Functions object must only contain functions.");
-    toRegister.push(() => stylistFunctions.set(funcName,value));
+    // this prevents a bug where we miss an existing style element in 
+    // a check for a style element based on the stylist.name property
+    if ( value.name !== funcName ) throw new TypeError(`Stylist function must be actual function named ${funcName} (it was ${value.name})`);
+
+    // don't overwrite exisiting names
+    if ( !stylistFunctions.has(funcName) ) {
+      toRegister.push(() => stylistFunctions.set(funcName,value));
+    }
   }
   while(toRegister.length) toRegister.pop()();
 }
@@ -81,14 +96,15 @@ function randomClass() {
 }
 
 function associate(className, element, stylist, state) {
+  let changes = true;
   if (!mappings.has(className)) {
     mappings.set(className, {element,stylist});
   }
-  const styleText = stylist(element, state) || '';
-  let styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+  const styleText = Options.shield + (stylist(element, state) || '');
+  let styleElement = document.head.querySelector(`style[data-stylist="${stylist.name}"]`);
   if ( !styleElement ) {
     const styleMarkup = `
-      <style data-prefix="${className}">
+      <style data-stylist="${stylist.name}" data-prefix="${className}">
         ${styleText}
       </style>
     `;
@@ -96,10 +112,15 @@ function associate(className, element, stylist, state) {
     styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
   } else if ( styleElement.innerHTML !== styleText ) {
     styleElement.innerHTML = styleText;
+  } else {
+    changes = false;
   }
-  const styleSheet = styleElement.sheet;
-  prefixAllRules(styleSheet, "." + className, '');
-  element.setAttribute('associated', 'true');
+  // only prefix if we have not already
+  if ( changes ) {
+    const styleSheet = styleElement.sheet;
+    prefixAllRules(styleSheet, "." + className, '');
+    element.setAttribute('associated', 'true');
+  }
 }
 
 function disassociate(className, element) {
