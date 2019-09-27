@@ -1,6 +1,6 @@
 import {generateUniquePrefix, prefixAllRules} from '../maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
-import DEFAULT_SHEILD from './shield.js';
+import DEFAULT_SHIELD from './shield.js';
 
 const Options = {shield:DEFAULT_SHIELD};
 const stylistFunctions = new Map();
@@ -27,7 +27,7 @@ export function restyleAll() {
   });
 }
 
-export function initializeDSS(state, functionsObject, options) {
+export function initializeDSS(state, functionsObject, options = {}) {
   const {shield} = options;
 
   if ( !! shield && typeof shield == "string" ) {

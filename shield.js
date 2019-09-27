@@ -1,5 +1,8 @@
-export default shield = `
+const shield = `
   * {
-    all: initial;
+
   }
 `;
+
+export default shield;
+
