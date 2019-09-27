@@ -1,8 +1,5 @@
 import {generateUniquePrefix, prefixAllRules} from '../maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
-import DEFAULT_SHIELD from './shield.js';
-
-const Options = {shield:DEFAULT_SHIELD};
 const stylistFunctions = new Map();
 const mappings = new Map();
 const memory = {state: {}};
@@ -27,27 +24,23 @@ export function restyleAll() {
   });
 }
 
-export function initializeDSS(state, functionsObject, options = {}) {
-  const {shield} = options;
-
-  if ( !! shield && typeof shield == "string" ) {
-    Object.assign(Options, {shield});
-  } 
-
+export function initializeDSS(state, functionsObject) {
   setState(state);
   /** 
     to REALLY prevent FOUC put this style tag BEFORE any DSS-styled markup
     and before any scripts that add markup, 
     and before the initializeDSS call
   **/
-  document.head.insertAdjacentHTML('afterBegin', `
-    <style data-role="prevent-fouc">
-      [stylist]:not([associated]) {
-        display: none !important;
-      }
-    </style>
-  `);
-  addMoreStylistFunctions(functionsObject, options); 
+  if ( ! document.querySelector('[data-role="prevent-fouc"]') ) {
+    document.head.insertAdjacentHTML('beforeEnd', `
+      <style data-role="prevent-fouc">
+        [stylist]:not([associated]) {
+          display: none !important;
+        }
+      </style>
+    `);
+  }
+  addMoreStylistFunctions(functionsObject); 
   addInsertListener(associateStylistFunctions);
   addRemovedListener(unassociateStylistFunctions);
   monitorChanges();
@@ -100,8 +93,8 @@ function associate(className, element, stylist, state) {
   if (!mappings.has(className)) {
     mappings.set(className, {element,stylist});
   }
-  const styleText = Options.shield + (stylist(element, state) || '');
-  let styleElement = document.head.querySelector(`style[data-stylist="${stylist.name}"]`);
+  const styleText = (stylist(element, state) || '');
+  let styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
   if ( !styleElement ) {
     const styleMarkup = `
       <style data-stylist="${stylist.name}" data-prefix="${className}">

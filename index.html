@@ -1,14 +1,10 @@
+<!DOCTYPE html>
 <title>DSS Test</title>
-    <style data-role="prevent-fouc">
-      [stylist]:not([associated]) {
-        display: none !important;
-      }
-    </style>
 <script type=module>
   const sleep = ms => new Promise(res => setTimeout(res,ms));
   import {restyleElement, initializeDSS, restyleAll, setState} from './index.js';
 
-  start();
+  self.onload = start;
 
   async function start() {
     const state = {
@@ -55,21 +51,22 @@
       },
     });
 
-    await sleep(5000);
+    await sleep(1000);
 
     setState({
       color: 'purple'
     });
     restyleAll();
 
-    await sleep(2000);
+    await sleep(1000);
 
     setState({
       hotness: 'nice',
     });
+
     restyleElement(document.querySelector('.whatever'));
 
-    await sleep(3000);
+    await sleep(1000);
 
     restyleAll();
   }
