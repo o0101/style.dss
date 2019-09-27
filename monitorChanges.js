@@ -1,15 +1,24 @@
 const InsertListeners = [];
 const RemovedListeners = [];
 
+const inserted = new Set();
+const removed = new Set();
+let monitoring = false;
+
 export function addInsertListener(listener) {
+  if ( inserted.has( listener ) ) return;
   InsertListeners.push(listener);
+  inserted.add(listener);
 }
 
 export function addRemovedListener(listener) {
+  if ( removed.has(listener) ) return;
   RemovedListeners.push(listener);
+  removed.add(listener);
 }
 
 export function monitorChanges() {
+  if ( monitoring ) return;
   // demo of watching for any new nodes that declare stylists
   const mo = new MutationObserver((mutations)=> {
     let AddedElements = [];
@@ -46,4 +55,5 @@ export function monitorChanges() {
     } 
   });
   mo.observe(document.documentElement, {childList:true, subtree:true});
+  monitoring = true;
 }

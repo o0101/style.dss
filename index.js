@@ -3,6 +3,7 @@ import {addInsertListener, addRemovedListener, monitorChanges} from './monitorCh
 const stylistFunctions = new Map();
 const mappings = new Map();
 const memory = {state: {}};
+let initialized = false;
 
 export function setState(newState) {
   const clonedState = clone(newState);
@@ -44,8 +45,11 @@ export function initializeDSS(state, functionsObject) {
   addInsertListener(associateStylistFunctions);
   addRemovedListener(unassociateStylistFunctions);
   monitorChanges();
-  const initialEls = Array.from(document.querySelectorAll('[stylist]'));
-  associateStylistFunctions(...initialEls);
+  if ( ! initialized ) {
+    const initialEls = Array.from(document.querySelectorAll('[stylist]'));
+    associateStylistFunctions(...initialEls);
+    initialized = true;
+  }
 
   return;
 

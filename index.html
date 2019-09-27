@@ -4,7 +4,9 @@
   const sleep = ms => new Promise(res => setTimeout(res,ms));
   import {restyleElement, initializeDSS, restyleAll, setState} from './index.js';
 
-  self.onload = start;
+  start();
+  start();
+  start();
 
   async function start() {
     const state = {
