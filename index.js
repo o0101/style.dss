@@ -1,7 +1,6 @@
 import {generateUniquePrefix, prefixAllRules} from '../maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
-import SHIELD from './shield.js';
-const stylistFunctions = new Map([['shield', SHIELD]]);
+const stylistFunctions = new Map();
 const mappings = new Map();
 const memory = {state: {}};
 let initialized = false;
@@ -60,14 +59,10 @@ export function initializeDSS(state, functionsObject) {
     if ( els.length == 0 ) return;
     for ( const el of els ) {
       const stylistNames = (el.getAttribute('stylist') || '').split(/\s+/g);
-      // add the shield
-        let className = randomClass();
-        el.classList.add(className);
-        associate(className, el, SHIELD, state);
       for ( const stylistName of stylistNames ) {
         const stylist = stylistFunctions.get(stylistName);
         if ( ! stylist ) throw new TypeError(`Stylist named by ${stylistName} is unknown.`);
-        className = randomClass();
+        const className = randomClass();
         el.classList.add(className);
         associate(className, el, stylist, state);
       }
