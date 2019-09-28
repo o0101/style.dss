@@ -59,12 +59,16 @@ export function initializeDSS(state, functionsObject) {
     if ( els.length == 0 ) return;
     for ( const el of els ) {
       const stylistNames = (el.getAttribute('stylist') || '').split(/\s+/g);
+      let first = true;
       for ( const stylistName of stylistNames ) {
         const stylist = stylistFunctions.get(stylistName);
         if ( ! stylist ) throw new TypeError(`Stylist named by ${stylistName} is unknown.`);
         const className = randomClass();
         el.classList.add(className);
-        associate(className, el, stylist, state);
+        associate(className, el, stylist, state, first);
+        if ( first ) {
+          first = false;
+        }
       }
     }
   }
@@ -93,12 +97,12 @@ function randomClass() {
   return className;
 }
 
-function associate(className, element, stylist, state) {
+function associate(className, element, stylist, state, first) {
   let changes = true;
   if (!mappings.has(className)) {
     mappings.set(className, {element,stylist});
   }
-  const styleText = (stylist(element, state) || '');
+  const styleText = (first ? SHIELD + '\n': '') + (stylist(element, state) || '');
   let styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
   if ( !styleElement ) {
     const styleMarkup = `

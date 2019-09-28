@@ -70,6 +70,11 @@ export function prefixAllRules(ss, prefix, combinator = ' ') {
 
   while(i >= 0) {
     const lastRule = ss.cssRules[lastRuleIndex];
+    if ( ! lastRule ) {
+      console.warn("No such last rule", lastRuleIndex, ss.cssRules);
+      i--;
+      continue;
+    }
     if ( lastRule.type == CSSRule.STYLE_RULE ) {
       prefixStyleRule(lastRule, ss, lastRuleIndex, prefix, combinator)
     } else if ( lastRule.type == CSSRule.MEDIA_RULE ) {
@@ -115,7 +120,11 @@ function prefixStyleRule(lastRule, ss, lastRuleIndex, prefix, combinator) {
   const newRuleSelectorText = modifiedSelectors.join(', ');
   newRuleText = `${newRuleSelectorText} ${ruleBlock}`;
   ss.deleteRule(lastRuleIndex);
-  ss.insertRule(newRuleText, 0);
+  try {
+    ss.insertRule(newRuleText, 0);
+  } catch(e) {
+    console.log(e, newRuleText, selectorText, lastRuleIndex);
+  }
 }
 
 export async function scopeStyleSheet(url,prefix,combinator = ' ') {
