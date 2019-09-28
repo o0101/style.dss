@@ -1,5 +1,6 @@
 import {generateUniquePrefix, prefixAllRules} from '../maskingtape.css/c3s.js';
 import {addInsertListener, addRemovedListener, monitorChanges} from './monitorChanges.js';
+import SHIELD from './shield.js';
 const stylistFunctions = new Map();
 const mappings = new Map();
 const memory = {state: {}};
