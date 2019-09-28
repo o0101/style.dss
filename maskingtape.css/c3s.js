@@ -75,7 +75,6 @@ export function prefixAllRules(ss, prefix, combinator = ' ') {
       console.warn("No such last rule", lastRuleIndex);
       continue;
     }
-    console.log(lastRule);
     if ( lastRule.type == CSSRule.STYLE_RULE ) {
       prefixStyleRule(lastRule, ss, lastRuleIndex, prefix, combinator)
     } else if ( lastRule.type == CSSRule.MEDIA_RULE ) {

@@ -26,14 +26,14 @@ export default function shield(el, state) {
 
     @namespace "http://www.w3.org/1999/xhtml";
 
-      * {
-        all: initial;
-        background: transparent;
-        color: black;
+      * * {
+        background: unset;
+        color: unset;
       }
 
       html {
         display: block;
+        color: black;
         color: -internal-root-color;
       }
 
@@ -427,7 +427,7 @@ export default function shield(el, state) {
         text-align: start;
       }
 
-      input[type="hidden" i] {
+      input[type="hidden"] {
         display: none
       }
 
@@ -440,7 +440,7 @@ export default function shield(el, state) {
         cursor: text;
       }
 
-      input[type="search" i] {
+      input[type="search"] {
         -webkit-appearance: searchfield; /* AutoAppearanceFor() should match to this. */
         box-sizing: border-box;
       }
@@ -468,7 +468,7 @@ export default function shield(el, state) {
         pointer-events: auto;
       }
 
-      input[type="search" i]::-webkit-search-cancel-button {
+      input[type="search"]::-webkit-search-cancel-button {
         -webkit-appearance: searchfield-cancel-button; /* AutoAppearanceFor() should match to this. */
         display: block;
         cursor: default;
@@ -480,7 +480,7 @@ export default function shield(el, state) {
         user-select: none !important;
       }
 
-      input[type="search" i]:enabled:read-write:-webkit-any(:focus,:hover)::-webkit-search-cancel-button {
+      input[type="search"]:enabled:read-write:-webkit-any(:focus,:hover)::-webkit-search-cancel-button {
         opacity: 1;
         pointer-events: auto;
       }
@@ -544,15 +544,15 @@ export default function shield(el, state) {
         font: -webkit-small-control !important;
       }
 
-      input[type="password" i] {
+      input[type="password"] {
         -webkit-text-security: disc !important;
       }
 
-      input[type="password" i]::-internal-input-suggested {
+      input[type="password"]::-internal-input-suggested {
         -webkit-text-security: disc !important;
       }
 
-      input[type="hidden" i], input[type="image" i], input[type="file" i] {
+      input[type="hidden"], input[type="image"], input[type="file"] {
         -webkit-appearance: initial; /* AutoAppearanceFor() should match to this. */
         padding: initial;
         background-color: initial;
@@ -560,13 +560,13 @@ export default function shield(el, state) {
         cursor: default;
       }
 
-      input[type="file" i] {
+      input[type="file"] {
         align-items: baseline;
         color: inherit;
         text-align: start !important;
       }
 
-      input[type="image" i] {
+      input[type="image"] {
         cursor: pointer;
       }
 
@@ -588,7 +588,7 @@ export default function shield(el, state) {
       color: -internal-light-dark-color(black, white) !important;
       }
 
-      input[type="radio" i], input[type="checkbox" i] {
+      input[type="radio"], input[type="checkbox"] {
         margin: 3px 0.5ex;
         padding: initial;
         background-color: initial;
@@ -596,13 +596,13 @@ export default function shield(el, state) {
         cursor: default;
       }
 
-      input[type="button" i], input[type="submit" i], input[type="reset" i] {
+      input[type="button"], input[type="submit"], input[type="reset"] {
         -webkit-appearance: push-button; /* AutoAppearanceFor() should match to this. */
         -webkit-user-select: none;
         white-space: pre
       }
 
-      input[type="file" i]::-webkit-file-upload-button {
+      input[type="file"]::-webkit-file-upload-button {
         -webkit-appearance: push-button; /* AutoAppearanceFor() should match to this. */
         -webkit-user-modify: read-only !important;
         white-space: nowrap;
@@ -610,7 +610,7 @@ export default function shield(el, state) {
         font-size: inherit;
       }
 
-      input[type="button" i], input[type="submit" i], input[type="reset" i], input[type="file" i]::-webkit-file-upload-button, button {
+      input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
         align-items: flex-start;
         text-align: center;
         cursor: default;
@@ -621,7 +621,7 @@ export default function shield(el, state) {
         box-sizing: border-box
       }
 
-      input[type="range" i] {
+      input[type="range"] {
         -webkit-appearance: slider-horizontal; /* AutoAppearanceFor() should match to this. */
         padding: initial;
         border: initial;
@@ -630,7 +630,7 @@ export default function shield(el, state) {
         cursor: default;
       }
 
-      input[type="range" i]::-webkit-slider-container, input[type="range" i]::-webkit-media-slider-container {
+      input[type="range"]::-webkit-slider-container, input[type="range"]::-webkit-media-slider-container {
         -webkit-appearance: inherit; /* AutoAppearanceFor() should match to this. */
         flex: 1;
         min-width: 0;
@@ -639,7 +639,7 @@ export default function shield(el, state) {
         display: flex;
       }
 
-      input[type="range" i]::-webkit-slider-runnable-track {
+      input[type="range"]::-webkit-slider-runnable-track {
         flex: 1;
         min-width: 0;
         -webkit-align-self: center;
@@ -649,25 +649,25 @@ export default function shield(el, state) {
         display: block;
       }
 
-      input[type="range" i]::-webkit-slider-thumb, input[type="range" i]::-webkit-media-slider-thumb {
+      input[type="range"]::-webkit-slider-thumb, input[type="range"]::-webkit-media-slider-thumb {
         -webkit-appearance: sliderthumb-horizontal; /* AutoAppearanceFor() should match to this. */
         box-sizing: border-box;
         -webkit-user-modify: read-only !important;
         display: block;
       }
 
-      input[type="button" i]:disabled, input[type="submit" i]:disabled, input[type="reset" i]:disabled,
-      input[type="file" i]:disabled::-webkit-file-upload-button, button:disabled,
+      input[type="button"]:disabled, input[type="submit"]:disabled, input[type="reset"]:disabled,
+      input[type="file"]:disabled::-webkit-file-upload-button, button:disabled,
       select:disabled, optgroup:disabled, option:disabled,
       select[disabled]>option {
         color: -internal-light-dark-color(GrayText, #aaa);
       }
 
-      input[type="button" i]:active, input[type="submit" i]:active, input[type="reset" i]:active, input[type="file" i]:active::-webkit-file-upload-button, button:active {
+      input[type="button"]:active, input[type="submit"]:active, input[type="reset"]:active, input[type="file"]:active::-webkit-file-upload-button, button:active {
         border-style: inset
       }
 
-      input[type="button" i]:active:disabled, input[type="submit" i]:active:disabled, input[type="reset" i]:active:disabled, input[type="file" i]:active:disabled::-webkit-file-upload-button, button:active:disabled {
+      input[type="button"]:active:disabled, input[type="submit"]:active:disabled, input[type="reset"]:active:disabled, input[type="file"]:active:disabled::-webkit-file-upload-button, button:active:disabled {
         border-style: outset
       }
 
@@ -697,17 +697,17 @@ export default function shield(el, state) {
         display: none
       }
 
-      input[type="checkbox" i] {
+      input[type="checkbox"] {
         -webkit-appearance: checkbox; /* AutoAppearanceFor() should match to this. */
         box-sizing: border-box;
       }
 
-      input[type="radio" i] {
+      input[type="radio"] {
         -webkit-appearance: radio; /* AutoAppearanceFor() should match to this. */
         box-sizing: border-box;
       }
 
-      input[type="color" i] {
+      input[type="color"] {
         -webkit-appearance: square-button; /* AutoAppearanceFor() should match to this. */
         width: 44px;
         height: 23px;
@@ -718,7 +718,7 @@ export default function shield(el, state) {
         cursor: default;
       }
 
-      input[type="color" i]::-webkit-color-swatch-wrapper {
+      input[type="color"]::-webkit-color-swatch-wrapper {
         display:flex;
         padding: 4px 2px;
         box-sizing: border-box;
@@ -727,7 +727,7 @@ export default function shield(el, state) {
         height: 100%
       }
 
-      input[type="color" i]::-webkit-color-swatch {
+      input[type="color"]::-webkit-color-swatch {
         background-color: #000000;
         border: 1px solid #777777;
         flex: 1;
@@ -735,18 +735,18 @@ export default function shield(el, state) {
         -webkit-user-modify: read-only !important;
       }
 
-      input[type="color" i][list] {
+      input[type="color"][list] {
         -webkit-appearance: menulist; /* AutoAppearanceFor() should match to this. */
         width: 88px;
         height: 23px
       }
 
-      input[type="color" i][list]::-webkit-color-swatch-wrapper {
+      input[type="color"][list]::-webkit-color-swatch-wrapper {
         padding-inline-start: 8px;
         padding-inline-end: 24px;
       }
 
-      input[type="color" i][list]::-webkit-color-swatch {
+      input[type="color"][list]::-webkit-color-swatch {
         border-color: #000000;
       }
 
@@ -771,23 +771,23 @@ export default function shield(el, state) {
         pointer-events: auto;
       }
 
-      input[type="date" i]:disabled::-webkit-clear-button,
-      input[type="date" i]:disabled::-webkit-inner-spin-button,
-      input[type="datetime-local" i]:disabled::-webkit-clear-button,
-      input[type="datetime-local" i]:disabled::-webkit-inner-spin-button,
-      input[type="month" i]:disabled::-webkit-clear-button,
-      input[type="month" i]:disabled::-webkit-inner-spin-button,
-      input[type="week" i]:disabled::-webkit-clear-button,
-      input[type="week" i]:disabled::-webkit-inner-spin-button,
+      input[type="date"]:disabled::-webkit-clear-button,
+      input[type="date"]:disabled::-webkit-inner-spin-button,
+      input[type="datetime-local"]:disabled::-webkit-clear-button,
+      input[type="datetime-local"]:disabled::-webkit-inner-spin-button,
+      input[type="month"]:disabled::-webkit-clear-button,
+      input[type="month"]:disabled::-webkit-inner-spin-button,
+      input[type="week"]:disabled::-webkit-clear-button,
+      input[type="week"]:disabled::-webkit-inner-spin-button,
       input:disabled::-webkit-calendar-picker-indicator,
-      input[type="date" i][readonly]::-webkit-clear-button,
-      input[type="date" i][readonly]::-webkit-inner-spin-button,
-      input[type="datetime-local" i][readonly]::-webkit-clear-button,
-      input[type="datetime-local" i][readonly]::-webkit-inner-spin-button,
-      input[type="month" i][readonly]::-webkit-clear-button,
-      input[type="month" i][readonly]::-webkit-inner-spin-button,
-      input[type="week" i][readonly]::-webkit-clear-button,
-      input[type="week" i][readonly]::-webkit-inner-spin-button,
+      input[type="date"][readonly]::-webkit-clear-button,
+      input[type="date"][readonly]::-webkit-inner-spin-button,
+      input[type="datetime-local"][readonly]::-webkit-clear-button,
+      input[type="datetime-local"][readonly]::-webkit-inner-spin-button,
+      input[type="month"][readonly]::-webkit-clear-button,
+      input[type="month"][readonly]::-webkit-inner-spin-button,
+      input[type="week"][readonly]::-webkit-clear-button,
+      input[type="week"][readonly]::-webkit-inner-spin-button,
       input[readonly]::-webkit-calendar-picker-indicator {
         visibility: hidden;
       }
@@ -1045,15 +1045,15 @@ export default function shield(el, state) {
         outline-offset: -2px
       }
 
-      input[type="button" i]:focus,
-      input[type="checkbox" i]:focus,
-      input[type="file" i]:focus,
-      input[type="hidden" i]:focus,
-      input[type="image" i]:focus,
-      input[type="radio" i]:focus,
-      input[type="reset" i]:focus,
-      input[type="submit" i]:focus,
-      input[type="file" i]:focus::-webkit-file-upload-button {
+      input[type="button"]:focus,
+      input[type="checkbox"]:focus,
+      input[type="file"]:focus,
+      input[type="hidden"]:focus,
+      input[type="image"]:focus,
+      input[type="radio"]:focus,
+      input[type="reset"]:focus,
+      input[type="submit"]:focus,
+      input[type="file"]:focus::-webkit-file-upload-button {
         outline-offset: 0
       }
 
@@ -1137,7 +1137,7 @@ export default function shield(el, state) {
         unicode-bidi: bidi-override;
       }
 
-      textarea[dir=auto i] {
+      textarea[dir=auto] {
         unicode-bidi: -webkit-plaintext;
       }
 
@@ -1191,6 +1191,6 @@ export default function shield(el, state) {
       }
 
       /* noscript is handled internally, as it depends on settings. */
-  `;
+   `;
 }
 

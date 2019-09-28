@@ -1,4 +1,4 @@
-# maskingtape.css (1.4.3)
+# maskingtape.css (1.5.1)
 
 Block off where you want your styles to apply. Control the drips, er... I mean, the cascade.
 
@@ -15,4 +15,5 @@ Also, maskingtape.css is included in [brutestrap](https://github.com/crislin2046
 ## Notes
 
 - Currently supports CORS sheets, via "crossorigin" HTML5 attribute.
+- Does not currently support selectors with the case insensitive attribute flag, i.e `[type="button" i]`
   

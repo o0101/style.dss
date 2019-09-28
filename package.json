@@ -34,7 +34,7 @@
     "url": "https://gitlab.com/dosycorp/dss/issues"
   },
   "dependencies": {
-    "maskingtape.css": "^1.5.0"
+    "maskingtape.css": "^1.5.1"
   },
   "description": "dynamic style sheets",
   "homepage": "https://gitlab.com/dosycorp/dss#readme",
