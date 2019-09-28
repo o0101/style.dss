@@ -65,16 +65,17 @@ export function cloneStyleSheet(ss) {
 }
 
 export function prefixAllRules(ss, prefix, combinator = ' ') {
-  const lastRuleIndex = ss.cssRules.length - 1;
+  let lastRuleIndex = ss.cssRules.length - 1;
   let i = lastRuleIndex;
 
   while(i >= 0) {
+    lastRuleIndex = ss.cssRules.length - 1;
     const lastRule = ss.cssRules[lastRuleIndex];
     if ( ! lastRule ) {
-      console.warn("No such last rule", lastRuleIndex, ss.cssRules);
-      i--;
+      console.warn("No such last rule", lastRuleIndex);
       continue;
     }
+    console.log(lastRule);
     if ( lastRule.type == CSSRule.STYLE_RULE ) {
       prefixStyleRule(lastRule, ss, lastRuleIndex, prefix, combinator)
     } else if ( lastRule.type == CSSRule.MEDIA_RULE ) {
@@ -84,7 +85,23 @@ export function prefixAllRules(ss, prefix, combinator = ' ') {
         prefixStyleRule(rule, lastRule, lastIndex, prefix, combinator);
       }
       ss.deleteRule(lastRuleIndex);
-      ss.insertRule(lastRule.cssText, 0);
+      try {
+        let index = 0;
+        if ( ss.cssRules.length && ss.cssRules[0].type == CSSRule.NAMESPACE_RULE ) {
+          index = 1;
+        }
+        ss.insertRule(lastRule.cssText, index);
+      } catch(e) {
+        console.log(e, lastRule.cssText, lastRule, ss);
+        //throw e;
+      }
+    } else {
+      ss.deleteRule(lastRuleIndex);
+      let index = 0;
+      if ( ss.cssRules.length && ss.cssRules[0].type == CSSRule.NAMESPACE_RULE ) {
+        index = 1;
+      }
+      ss.insertRule(lastRule.cssText, index);
     }
     i--;
   }
@@ -121,9 +138,14 @@ function prefixStyleRule(lastRule, ss, lastRuleIndex, prefix, combinator) {
   newRuleText = `${newRuleSelectorText} ${ruleBlock}`;
   ss.deleteRule(lastRuleIndex);
   try {
-    ss.insertRule(newRuleText, 0);
+    let index = 0;
+    if ( ss.cssRules.length && ss.cssRules[0].type == CSSRule.NAMESPACE_RULE ) {
+      index = 1;
+    }
+    ss.insertRule(newRuleText, index);
   } catch(e) {
-    console.log(e, newRuleText, selectorText, lastRuleIndex);
+    console.log(e, newRuleText, selectorText, lastRuleIndex, ss);
+    //throw e;
   }
 }
 
