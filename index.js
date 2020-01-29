@@ -94,13 +94,18 @@ function randomClass() {
 }
 
 function associate(className, element, stylist, state) {
-  let changes = true;
+  const styleText = (stylist(element, state) || '');
+  let styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+  let changes = false;
+  let prefixed = true;
+  let prefixedStyleText;
+
   if (!mappings.has(className)) {
     mappings.set(className, {element,stylist});
   }
-  const styleText = (stylist(element, state) || '');
-  let styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
+
   if ( !styleElement ) {
+    prefixed = false;
     const styleMarkup = `
       <style data-stylist="${stylist.name}" data-prefix="${className}">
         ${styleText}
@@ -108,17 +113,31 @@ function associate(className, element, stylist, state) {
     `;
     document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
     styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
-  } else if ( styleElement.innerHTML !== styleText ) {
-    styleElement.innerHTML = styleText;
   } else {
-    changes = false;
+    prefixedStyleText = Array.from(styleElement.sheet.cssRules)
+      .filter(rule => !rule.parentRule)
+      .map(rule => rule.cssText)
+      .join('\n')
   }
+
+  // I don't know why this has to happen, but it does
+  if ( styleElement.innerHTML != styleText ) {
+    styleElement.innerHTML = styleText;
+    changes = true;
+  }
+
   // only prefix if we have not already
-  if ( changes ) {
+  if ( !prefixed || changes ) {
     const styleSheet = styleElement.sheet;
     prefixAllRules(styleSheet, "." + className, '');
     element.setAttribute('associated', 'true');
+    prefixedStyleText = Array.from(styleSheet.cssRules)
+      .filter(rule => !rule.parentRule)
+      .map(rule => rule.cssText)
+      .join('\n')
+    styleElement.innerHTML = prefixedStyleText;
   }
+
 }
 
 function disassociate(className, element) {
