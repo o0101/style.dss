@@ -27,6 +27,7 @@ export function monitorChanges() {
       const addedElements = Array.from(mutation.addedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE && x.hasAttribute('stylist'));
       const removedElements = Array.from(mutation.removedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE && x.hasAttribute('stylist'));
       AddedElements.push(...addedElements);
+      addedElements.forEach(el => AddedElements.push(...el.querySelector('[stylist]')));
       RemovedElements.push(...removedElements);
     }
     const AddedSet = new Set(AddedElements);
