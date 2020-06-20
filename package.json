@@ -27,7 +27,7 @@
     "pretest": "cp -r ./node_modules/maskingtape.css ./",
     "test": "serve -p 8080"
   },
-  "version": "1.3.7",
+  "version": "1.4.0",
   "devDependencies": {
     "bepis": "^2.1.19"
   }
