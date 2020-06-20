@@ -24,11 +24,20 @@ export function monitorChanges() {
     let AddedElements = [];
     let RemovedElements = [];
     for ( const mutation of mutations ) {
-      const addedElements = Array.from(mutation.addedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE && x.hasAttribute('stylist'));
-      const removedElements = Array.from(mutation.removedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE && x.hasAttribute('stylist'));
-      AddedElements.push(...addedElements);
-      addedElements.forEach(el => AddedElements.push(...el.querySelectorAll('[stylist]')));
-      RemovedElements.push(...removedElements);
+      const addedElements = Array.from(mutation.addedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE);
+      const removedElements = Array.from(mutation.removedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE);
+      addedElements.forEach(el => {
+        if ( el.matches('[stylist]')) {
+          AddedElements.push(el);
+        }
+        AddedElements.push(...el.querySelectorAll('[stylist]'));
+      });
+      removedElements.forEach(el => {
+        if ( el.matches('[stylist]')) {
+          RemovedElements.push(el);
+        }
+        RemovedElements.push(...el.querySelectorAll('[stylist]'));
+      });
     }
     const AddedSet = new Set(AddedElements);
     const FilterOut = new Set();
@@ -45,6 +54,7 @@ export function monitorChanges() {
         }
       }
     }
+
     if ( AddedElements.length ) {
       for ( const listener of InsertListeners ) {
         try {
