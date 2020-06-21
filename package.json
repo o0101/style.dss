@@ -25,10 +25,17 @@
   },
   "scripts": {
     "pretest": "cp -r ./node_modules/maskingtape.css ./",
-    "test": "serve -p 8080"
+    "test": "serve -p 8080",
+    "tscheck-client": "tsc --types node --target ES2020 --checkJs --allowJs --outFile typetests/client.js --module System index.js decs.d.ts",
+    "tscheck": "npm run tscheck-client",
+    "lint": "npx eslint *.js",
+    "check": "npm run lint && npm run tscheck"
   },
   "version": "1.5.0",
   "devDependencies": {
-    "bepis": "^2.1.19"
+    "@types/node": "^14.0.13",
+    "bepis": "^2.1.19",
+    "eslint": "^7.3.0",
+    "typescript": "^3.9.5"
   }
 }

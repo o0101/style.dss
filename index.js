@@ -7,7 +7,7 @@ let initialized = false;
 
 export function setState(newState) {
   const clonedState = clone(newState);
-  Object.assign(memory.state,newState);
+  Object.assign(memory.state,clonedState);
 }
 
 export function restyleElement(el) {
@@ -34,7 +34,7 @@ export function initializeDSS(state, functionsObject) {
     and before the initializeDSS call
   **/
   if ( ! document.querySelector('[data-role="prevent-fouc"]') ) {
-    document.head.insertAdjacentHTML('beforeEnd', `
+    document.head.insertAdjacentHTML('beforeend', `
       <style data-role="prevent-fouc">
         [stylist]:not([associated]) {
           display: none !important;
@@ -111,13 +111,15 @@ function associate(className, element, stylist, state) {
         ${styleText}
       </style>
     `;
-    document.head.insertAdjacentHTML('beforeEnd', styleMarkup);
+    document.head.insertAdjacentHTML('beforeend', styleMarkup);
     styleElement = document.head.querySelector(`style[data-prefix="${className}"]`);
   } else {
-    prefixedStyleText = Array.from(styleElement.sheet.cssRules)
-      .filter(rule => !rule.parentRule)
-      .map(rule => rule.cssText)
-      .join('\n')
+    if ( styleElement instanceof HTMLStyleElement ) {
+      prefixedStyleText = Array.from(styleElement.sheet.cssRules)
+        .filter(rule => !rule.parentRule)
+        .map(rule => rule.cssText)
+        .join('\n')
+    }
   }
 
   // I don't know why this has to happen, but it does
@@ -128,14 +130,16 @@ function associate(className, element, stylist, state) {
 
   // only prefix if we have not already
   if ( !prefixed || changes ) {
-    const styleSheet = styleElement.sheet;
-    prefixAllRules(styleSheet, "." + className, '');
-    element.setAttribute('associated', 'true');
-    prefixedStyleText = Array.from(styleSheet.cssRules)
-      .filter(rule => !rule.parentRule)
-      .map(rule => rule.cssText)
-      .join('\n')
-    styleElement.innerHTML = prefixedStyleText;
+    if ( styleElement instanceof HTMLStyleElement ) {
+      const styleSheet = styleElement.sheet;
+      prefixAllRules(styleSheet, "." + className, '');
+      element.setAttribute('associated', 'true');
+      prefixedStyleText = Array.from(styleSheet.cssRules)
+        .filter(rule => !rule.parentRule)
+        .map(rule => rule.cssText)
+        .join('\n')
+      styleElement.innerHTML = prefixedStyleText;
+    }
   }
 
 }
@@ -143,7 +147,7 @@ function associate(className, element, stylist, state) {
 function disassociate(className, element) {
   const styleSheet = document.querySelector(`style[data-prefix="${className}"]`); 
   mappings.delete(className);
-  if ( !! styleSheet ) {
+  if ( styleSheet ) {
     element.classList.remove(className);
     styleSheet.remove();
   }

@@ -24,15 +24,17 @@ export function monitorChanges() {
     let AddedElements = [];
     let RemovedElements = [];
     for ( const mutation of mutations ) {
-      const addedElements = Array.from(mutation.addedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE);
-      const removedElements = Array.from(mutation.removedNodes).filter(x => x.nodeType == Node.ELEMENT_NODE);
+      const addedElements = Array.from(mutation.addedNodes);
+      const removedElements = Array.from(mutation.removedNodes);
       addedElements.forEach(el => {
+        if ( ! ( el instanceof HTMLElement ) ) return;
         if ( el.matches('[stylist]')) {
           AddedElements.push(el);
         }
         AddedElements.push(...el.querySelectorAll('[stylist]'));
       });
       removedElements.forEach(el => {
+        if ( ! ( el instanceof HTMLElement ) ) return;
         if ( el.matches('[stylist]')) {
           RemovedElements.push(el);
         }
