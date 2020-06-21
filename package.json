@@ -6,7 +6,7 @@
     "url": "https://gitlab.com/dosycorp/dss/issues"
   },
   "dependencies": {
-    "maskingtape.css": "^1.5.1"
+    "maskingtape.css": "^1.9.0"
   },
   "description": "dynamic style sheets",
   "homepage": "https://gitlab.com/dosycorp/dss#readme",
@@ -34,7 +34,7 @@
   "version": "1.6.0",
   "devDependencies": {
     "@types/node": "^14.0.13",
-    "bepis": "^2.1.19",
+    "bepis": "^2.2.0",
     "eslint": "^7.3.0",
     "typescript": "^3.9.5"
   }
