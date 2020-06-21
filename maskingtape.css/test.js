@@ -1,11 +1,10 @@
-import c3s from './c3s.js';
 import {generateUniquePrefix, extendPrefix, scope} from './c3s.js';
 
 const TRIALS = 10;
 
 let prefixes = [];
 
-//testAll();
+testAll();
 
 function testAll() {
   testPrefix();

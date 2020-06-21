@@ -1,27 +1,27 @@
 {
-  "_from": "maskingtape.css@1.6.0",
-  "_id": "maskingtape.css@1.6.0",
+  "_from": "maskingtape.css@1.8.0",
+  "_id": "maskingtape.css@1.8.0",
   "_inBundle": false,
-  "_integrity": "sha512-mwwnMI/UudIGLhgUXVSXiCk69jSG5PjcyA/kNmeJNxVB7bJnWcZ+n7wmPfujJhcOvBYNT5r2j9PbnJuVT4tKRg==",
+  "_integrity": "sha512-glsYnVNavQYZgPf6YrMcnQkRjxSXig0GEZUE3icKzblFR0XgRGDK265eYtkBcbqSXFVAqPpNbZn4ajtJWRjVDw==",
   "_location": "/maskingtape.css",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "maskingtape.css@1.6.0",
+    "raw": "maskingtape.css@1.8.0",
     "name": "maskingtape.css",
     "escapedName": "maskingtape.css",
-    "rawSpec": "1.6.0",
+    "rawSpec": "1.8.0",
     "saveSpec": null,
-    "fetchSpec": "1.6.0"
+    "fetchSpec": "1.8.0"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/maskingtape.css/-/maskingtape.css-1.6.0.tgz",
-  "_shasum": "655e73cdc907d83607126dca833e8748836e0adc",
-  "_spec": "maskingtape.css@1.6.0",
+  "_resolved": "https://registry.npmjs.org/maskingtape.css/-/maskingtape.css-1.8.0.tgz",
+  "_shasum": "4727b0f7d4ea67db17053603c9592751a77651c5",
+  "_spec": "maskingtape.css@1.8.0",
   "_where": "/home/cris/dynamic-style-sheets",
   "author": {
     "name": "@dosy"
@@ -32,7 +32,11 @@
   },
   "deprecated": false,
   "description": "Block off where you want your styles to go. Scoped-styles, control the cascade, CSS-in-JS library.",
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/node": "^14.0.13",
+    "eslint": "^7.3.0",
+    "typescript": "^3.9.5"
+  },
   "keywords": [
     "@dosy",
     "scoped-styles",
@@ -46,7 +50,11 @@
     "url": "https://github.com//crislin2046/c3s"
   },
   "scripts": {
-    "test": "serve -p 8080"
+    "check": "npm run lint && npm run tscheck",
+    "lint": "npx eslint *.js",
+    "test": "serve -p 8080",
+    "tscheck": "npm run tscheck-client",
+    "tscheck-client": "tsc --types node --target ES2020 --checkJs --allowJs --outFile typetests/client.js --module System c3s.js test.js decs.d.ts"
   },
-  "version": "1.6.0"
+  "version": "1.8.0"
 }

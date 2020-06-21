@@ -13,15 +13,9 @@ T.defCollection("Prefix", {
 
 let counter = 1;
 
+const c3s = {scope, rescope};
+
 export default c3s;
-
-Object.assign(c3s,{scope,rescope});
-
-function c3s(parts, ...values) {
-  // not sure what this does yet
-  // but as an object c3s exports scope and rescope to allow components
-  // to request stylesheets be scoped to them
-}
 
 export function generateUniquePrefix() {
   counter += 3;
@@ -35,13 +29,37 @@ export function extendPrefix({prefix:existingPrefix}) {
   existingPrefix.push(generateUniquePrefix().prefix[0]);
 }
 
-export function findStyleSheet(url) {
+export function findStyleSheet(link) {
+  let ss;
+  const ssFound = Array.from(document.styleSheets).find(({ownerNode}) => ownerNode == link);
+  if ( !ssFound ) {
+    console.warn("last error", link);
+    throw new TypeError(`Cannot find sheet for link`);
+  } else {
+    ss = ssFound;
+  }
+
+  if ( ss instanceof CSSStyleSheet ) {
+    return ss;
+  }
+}
+
+export function findStyleLink(url) {
+  let ss;
   url = getURL(url);
   const ssFound = Array.from(document.styleSheets).find(({href}) => href == url);
   if ( !ssFound ) {
     const qsFound = document.querySelector(`link[href="${url}"]`);
-    return qsFound && qsFound;
-  } else return ssFound.ownerNode;
+    if ( qsFound ) {
+      ss = qsFound;
+    }
+  } else {
+    ss = ssFound.ownerNode;
+  }
+
+  if ( ss instanceof HTMLLinkElement ) {
+    return ss;
+  }
 }
 
 export function isStyleSheetAccessible(ss) {
@@ -59,8 +77,7 @@ export function isStyleSheetAccessible(ss) {
 export function cloneStyleSheet(ss) {
   const newNode = ss.cloneNode(true);
   newNode.dataset.scoped = true;
-  document.head.insertAdjacentElement('beforeEnd', newNode);
-  ss.remove();
+  ss.replaceWith(newNode);
   return newNode;
 }
 
@@ -149,7 +166,7 @@ function prefixStyleRule(lastRule, ss, lastRuleIndex, prefix, combinator) {
 }
 
 export async function scopeStyleSheet(url,prefix,combinator = ' ') {
-  const ss = findStyleSheet(url);
+  const ss = findStyleLink(url);
 
   if ( ! ss ) {
     throw new TypeError(`Stylesheet with URI ${url} cannot be found.`);
@@ -166,17 +183,25 @@ export async function scopeStyleSheet(url,prefix,combinator = ' ') {
         }
         const scopedSS = cloneStyleSheet(ss);
         scopedSS.onload = () => {
-          prefixAllRules(scopedSS.sheet,prefix, combinator);
+          const sheet = findStyleSheet(scopedSS);
+          prefixAllRules(sheet,prefix, combinator);
         };
         res(scopedSS);
       };
     });
   } else {
     const scopedSS = cloneStyleSheet(ss);
-    scopedSS.onload = () => {
-      prefixAllRules(scopedSS.sheet,prefix, combinator);
-    };
-    return scopedSS;
+    return new Promise(res => {
+      scopedSS.onload = () => {
+        try {
+          const sheet = findStyleSheet(scopedSS);
+          prefixAllRules(sheet,prefix, combinator);
+        } catch(e) {
+          console.warn(e);
+        }
+        res(scopedSS);
+      };
+    });
   }
 }
 
@@ -191,8 +216,8 @@ export function scope(url) {
 export function rescope({scopedSheet, prefix:existingPrefix}) {
   const prefix = generateUniquePrefix().prefix[0];
   const combinator = '';
-  prefixAllRules(scopedSS,prefix,combinator);
-  return {scopedSheet: scopedSS, prefix: prefix + existingPrefix};
+  prefixAllRules(scopedSheet,prefix,combinator);
+  return {scopedSheet, prefix: prefix + existingPrefix};
 }
 
 export function getURL(uri) {
