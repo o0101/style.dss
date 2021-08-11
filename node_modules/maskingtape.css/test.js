@@ -4,7 +4,7 @@ const TRIALS = 10;
 
 let prefixes = [];
 
-testAll();
+self.addEventListener('domcontentloaded', testAll);
 
 function testAll() {
   testPrefix();

@@ -6,7 +6,7 @@
     "url": "https://gitlab.com/dosycorp/dss/issues"
   },
   "dependencies": {
-    "maskingtape.css": "^1.9.0"
+    "maskingtape.css": "latest"
   },
   "description": "dynamic style sheets",
   "homepage": "https://gitlab.com/dosycorp/dss#readme",

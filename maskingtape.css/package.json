@@ -1,34 +1,10 @@
 {
-  "_from": "maskingtape.css@1.10.1",
-  "_id": "maskingtape.css@1.10.1",
-  "_inBundle": false,
-  "_integrity": "sha512-YeX0nZg5u/T9qd4SOCnU/JL7GpoOBwXCtk+e05wWPlctDb8c2ZSgw3ckt/iID2sv9adR/hm/rdqYT4r3qwofeA==",
-  "_location": "/maskingtape.css",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "maskingtape.css@1.10.1",
-    "name": "maskingtape.css",
-    "escapedName": "maskingtape.css",
-    "rawSpec": "1.10.1",
-    "saveSpec": null,
-    "fetchSpec": "1.10.1"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/maskingtape.css/-/maskingtape.css-1.10.1.tgz",
-  "_shasum": "05453f4aec0b9c921f23f3ec9ac938f0e7e45402",
-  "_spec": "maskingtape.css@1.10.1",
-  "_where": "/home/cris/dynamic-style-sheets",
   "author": {
     "name": "@dosy"
   },
   "bundleDependencies": false,
   "dependencies": {
-    "jtype-system": "latest"
+    "vanillatype": "latest"
   },
   "deprecated": false,
   "description": "Block off where you want your styles to go. Scoped-styles, control the cascade, CSS-in-JS library.",
@@ -50,11 +26,13 @@
     "url": "https://github.com//crislin2046/c3s"
   },
   "scripts": {
-    "check": "npm run lint && npm run tscheck",
-    "lint": "npx eslint *.js",
     "test": "serve -p 8080",
+    "tscheck-client": "tsc --types node --target ES2020 --checkJs --allowJs --outFile typetests/client.js --module System c3s.js test.js decs.d.ts",
     "tscheck": "npm run tscheck-client",
-    "tscheck-client": "tsc --types node --target ES2020 --checkJs --allowJs --outFile typetests/client.js --module System c3s.js test.js decs.d.ts"
+    "lint": "npx eslint *.js",
+    "check": "npm run lint && npm run tscheck",
+    "pretest": "bash ./setupdev.sh",
+    "prepublishOnly": "bash ./setupprod.sh"
   },
-  "version": "1.10.1"
+  "version": "1.11.4"
 }

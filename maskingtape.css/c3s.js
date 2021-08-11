@@ -3,6 +3,7 @@ const LABEL_LEN = 3;
 const LABEL = FULL_LABEL.slice(0,LABEL_LEN);
 const PREFIX_LEN = 10 + LABEL_LEN;
 const PREFIX_BASE = 36;
+//const sleep = ms => new Promise(res => setTimeout(res, ms));
 
 import {T} from './externals.js';
 
@@ -29,9 +30,11 @@ export function extendPrefix({prefix:existingPrefix}) {
   existingPrefix.push(generateUniquePrefix().prefix[0]);
 }
 
-export function findStyleSheet(link) {
+export async function findStyleSheet(link) {
+  //await sleep(0);
   let ss;
-  const ssFound = Array.from(document.styleSheets).find(({ownerNode}) => ownerNode == link);
+  const ssFound = Array.from(document.styleSheets).find(({ownerNode}) => ownerNode === link);
+  //console.log(ssFound, document.styleSheets[0].ownerNode);
   if ( !ssFound ) {
     console.warn("last error", link);
     throw new TypeError(`Cannot find sheet for link`);
@@ -75,9 +78,11 @@ export function isStyleSheetAccessible(ss) {
 // a style element rather than cloning using the link 
 // which may both rely on and recause a network request
 export function cloneStyleSheet(ss) {
+  //console.log("Cloning", ss);
   const newNode = ss.cloneNode(true);
   newNode.dataset.scoped = true;
   ss.replaceWith(newNode);
+  //console.log("New", newNode);
   return newNode;
 }
 
@@ -182,8 +187,8 @@ export async function scopeStyleSheet(url,prefix,combinator = ' ') {
           throw new TypeError(`Non CORS sheet at ${url} cannot have its rules accessed so cannot be scoped.`);
         }
         const scopedSS = cloneStyleSheet(ss);
-        scopedSS.onload = () => {
-          const sheet = findStyleSheet(scopedSS);
+        scopedSS.onload = async () => {
+          const sheet = await findStyleSheet(scopedSS);
           prefixAllRules(sheet,prefix, combinator);
         };
         res(scopedSS);
@@ -192,9 +197,9 @@ export async function scopeStyleSheet(url,prefix,combinator = ' ') {
   } else {
     const scopedSS = cloneStyleSheet(ss);
     return new Promise(res => {
-      scopedSS.onload = () => {
+      scopedSS.onload = async () => {
         try {
-          const sheet = findStyleSheet(scopedSS);
+          const sheet = await findStyleSheet(scopedSS);
           prefixAllRules(sheet,prefix, combinator);
         } catch(e) {
           console.warn(e);

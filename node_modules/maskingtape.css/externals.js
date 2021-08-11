@@ -1,4 +1,4 @@
-import {T} from '../jtype-system/t.js'
+import {T} from '../vanillatype/t.js'
 
 export default { T };
 
