@@ -1,4 +1,4 @@
-# Dyanmic Style Sheets (DSS) 
+# Dyanmic Style Sheets (DSS) ![npm](https://img.shields.io/npm/dt/style.dss)
 
 *Current version:* 1.4.0
 
