@@ -4,6 +4,10 @@
 
 DSS aims to implement style as a function of state. Effectively it results in functionality similar to a cross between scoped style sheets, and CSS-in-JS.
 
+```console
+$ npm i --save style.dss
+```
+
 ## Concept
 
 `style = F(state)`
